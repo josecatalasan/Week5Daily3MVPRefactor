@@ -1,4 +1,4 @@
-package com.example.week4daily3okhttp;
+package com.example.week4daily3okhttp.view.activities.MainActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,18 +8,16 @@ import androidx.recyclerview.widget.SnapHelper;
 
 import android.os.Bundle;
 
-import com.example.week4daily3okhttp.flickr.ItemsItem;
-import com.example.week4daily3okhttp.okhttp.FlickrAsyncTask;
-import com.example.week4daily3okhttp.okhttp.events.FlickrResponseEvent;
+import com.example.week4daily3okhttp.R;
+import com.example.week4daily3okhttp.model.flickr.FlickrResponse;
+import com.example.week4daily3okhttp.model.flickr.ItemsItem;
+import com.example.week4daily3okhttp.view.adapters.FlickrImagesAdapter;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity implements MainActivityContract{
+    private MainActivityPresenter presenter;
     private RecyclerView rvFlickr;
     private FlickrImagesAdapter adapter;
 
@@ -28,22 +26,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         rvFlickr = findViewById(R.id.rvFlickr);
-
-        //Start the asyncTask
-        FlickrAsyncTask flickrAsyncTask = new FlickrAsyncTask();
-        flickrAsyncTask.execute();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
+        presenter = new MainActivityPresenter(this);
+        presenter.getFlickrImages();
     }
 
     private void populateRV(List<ItemsItem> itemList){
@@ -58,11 +42,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onFlickrEvent(FlickrResponseEvent flickrResponseEvent){
-        if(flickrResponseEvent.getFlickrResponse() != null){
-            List<ItemsItem>itemList = flickrResponseEvent.getFlickrResponse().getItems();
+    @Override
+    public void onResult(FlickrResponse flickrResponse) {
+        if(flickrResponse != null){
+            List<ItemsItem>itemList = flickrResponse.getItems();
             populateRV(itemList);
         }
+
     }
 }

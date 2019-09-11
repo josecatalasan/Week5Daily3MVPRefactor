@@ -1,4 +1,4 @@
-package com.example.week4daily3okhttp.flickr;
+package com.example.week4daily3okhttp.model.flickr;
 
 import java.util.List;
 import com.google.gson.annotations.SerializedName;

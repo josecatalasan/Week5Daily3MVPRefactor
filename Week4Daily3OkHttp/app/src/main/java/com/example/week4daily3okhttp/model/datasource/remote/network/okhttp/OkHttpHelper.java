@@ -1,4 +1,4 @@
-package com.example.week4daily3okhttp.okhttp;
+package com.example.week4daily3okhttp.model.datasource.remote.network.okhttp;
 
 import java.io.IOException;
 
@@ -7,7 +7,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class OkHttpHelper {
-    public static final String API_CALL = "http://api.flickr.com/services/feeds/photos_public.gne?tag=kitten&format=json&nojsoncallback=1";
+    public static final String API_CALL = "http://api.flickr.com/services/feeds/photos_public.gne?tag=music&format=json&nojsoncallback=1";
 
     public OkHttpClient getClient(){
         return new OkHttpClient.Builder().build();

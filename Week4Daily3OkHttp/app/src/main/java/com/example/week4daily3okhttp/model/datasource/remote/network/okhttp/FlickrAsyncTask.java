@@ -1,19 +1,16 @@
-package com.example.week4daily3okhttp.okhttp;
+package com.example.week4daily3okhttp.model.datasource.remote.network.okhttp;
 
 import android.os.AsyncTask;
 
-import com.example.week4daily3okhttp.flickr.FlickrResponse;
-import com.example.week4daily3okhttp.okhttp.events.FlickrResponseEvent;
+import com.example.week4daily3okhttp.model.flickr.FlickrResponse;
 import com.google.gson.Gson;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 
 public class FlickrAsyncTask extends AsyncTask<Void, String, FlickrResponse> {
 
     @Override
-    protected FlickrResponse doInBackground(Void... voids) {
+    public FlickrResponse doInBackground(Void... voids) {
         OkHttpHelper okHttpHelper = new OkHttpHelper();
         String json;
         try{
@@ -27,9 +24,4 @@ public class FlickrAsyncTask extends AsyncTask<Void, String, FlickrResponse> {
         }
     }
 
-    @Override
-    protected void onPostExecute(FlickrResponse flickrResponse) {
-        super.onPostExecute(flickrResponse);
-        EventBus.getDefault().post(new FlickrResponseEvent(flickrResponse));
-    }
 }
